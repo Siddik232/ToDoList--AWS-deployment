@@ -1,0 +1,342 @@
+Here’s a simple HTML, CSS, and JavaScript project that you can deploy on AWS. This project is a To-Do List App that allows users to add, delete, and mark tasks as completed. It’s lightweight and perfect for deploying on AWS services like S3 (for static hosting) or EC2 (for a full-stack app).
+
+Project: To-Do List App
+Features:
+Add Tasks: Users can add new tasks to the list.
+
+Delete Tasks: Users can remove tasks from the list.
+
+Mark as Completed: Users can mark tasks as completed.
+
+Responsive Design: Works on both desktop and mobile devices.
+
+Files Required
+index.html: The main HTML file.
+
+style.css: The CSS file for styling.
+
+script.js: The JavaScript file for functionality.
+
+Code
+1. index.html
+html
+Copy
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="Add a new task...">
+    <button id="addTaskBtn">Add Task</button>
+    <ul id="taskList"></ul>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+Run HTML
+2. style.css
+css
+Copy
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+input {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #218838;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background: #f8f9fa;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li.completed {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+li button {
+  background: #dc3545;
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+li button:hover {
+  background: #c82333;
+}
+3. script.js
+javascript
+Copy
+document.getElementById('addTaskBtn').addEventListener('click', addTask);
+document.getElementById('taskInput').addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    addTask();
+  }
+});
+
+function addTask() {
+  const taskInput = document.getElementById('taskInput');
+  const taskText = taskInput.value.trim();
+
+  if (taskText === '') {
+    alert('Please enter a task!');
+    return;
+  }
+
+  const taskList = document.getElementById('taskList');
+
+  const li = document.createElement('li');
+  li.textContent = taskText;
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete';
+  deleteBtn.addEventListener('click', function () {
+    taskList.removeChild(li);
+  });
+
+  li.addEventListener('click', function () {
+    li.classList.toggle('completed');
+  });
+
+  li.appendChild(deleteBtn);
+  taskList.appendChild(li);
+
+  taskInput.value = '';
+}
+How to Deploy on AWS
+Option 1: Deploy on S3 (Static Hosting)
+Create an S3 Bucket:
+
+Go to the AWS Management Console.
+
+Create a new S3 bucket with a unique name.
+
+Enable Static Website Hosting in the bucket properties.
+
+Upload Files:
+
+Upload index.html, style.css, and script.js to the bucket.
+
+Set Permissions:
+
+Make the bucket publicly accessible by updating the bucket policy:
+
+json
+Copy
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::your-bucket-name/*"
+    }
+  ]
+}
+Access the Website:
+
+Use the S3 endpoint URL to access your To-Do List App.
+
+Option 2: Deploy on EC2 (Full-Stack App)
+Launch an EC2 Instance:
+
+Use a t2.micro instance (Free Tier eligible).
+
+Install a web server like Apache or Nginx:
+
+bash
+Copy
+sudo apt update
+sudo apt install apache2
+Upload Files:
+
+Use scp or an FTP client to upload index.html, style.css, and script.js to /var/www/html/.
+
+Access the Website:
+
+Use the public IP of your EC2 instance to access the app.
+
+Cost Considerations
+S3: Free for 5 GB of storage and 20,000 GET requests/month.
+
+EC2: Free for 750 hours of t2.micro instance usage/month.
+
+This project is simple, lightweight, and perfect for learning AWS deployment. Let me know if you need help with any step!
+
+give me some features to add
+The server is busy. Please try again later.
+
+deployment in aws step byb step
+Here’s a step-by-step guide to deploy the To-Do List App (HTML, CSS, JavaScript) on AWS using S3 Static Website Hosting. This is the simplest and most cost-effective way to host a static website on AWS.
+
+Step 1: Prepare Your Project Files
+Create the following files on your local machine:
+
+index.html
+
+style.css
+
+script.js
+
+Use the code provided in the previous response for these files.
+
+Step 2: Create an S3 Bucket
+Log in to AWS Console:
+
+Go to AWS Management Console.
+
+Open S3:
+
+Search for S3 in the AWS services search bar and click on it.
+
+Create a Bucket:
+
+Click Create bucket.
+
+Enter a unique Bucket name (e.g., todo-list-app).
+
+Select the Region closest to you.
+
+Leave other settings as default and click Create bucket.
+
+Step 3: Enable Static Website Hosting
+Select Your Bucket:
+
+Click on the bucket you just created.
+
+Enable Static Website Hosting:
+
+Go to the Properties tab.
+
+Scroll down to Static website hosting and click Edit.
+
+Select Enable.
+
+Set the Index document to index.html.
+
+Set the Error document to index.html (optional).
+
+Click Save changes.
+
+Step 4: Upload Your Files to S3
+Go to the Objects Tab:
+
+Inside your bucket, click on the Objects tab.
+
+Upload Files:
+
+Click Upload.
+
+Add the index.html, style.css, and script.js files.
+
+Click Upload.
+
+Step 5: Make the Bucket Public
+Go to the Permissions Tab:
+
+Inside your bucket, click on the Permissions tab.
+
+Block Public Access:
+
+Scroll down to Block public access (bucket settings).
+
+Click Edit.
+
+Uncheck Block all public access.
+
+Confirm by typing confirm and click Save changes.
+
+Update Bucket Policy:
+
+Scroll down to Bucket policy and click Edit.
+
+Add the following policy to make the bucket publicly accessible:
+
+json
+Copy
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::your-bucket-name/*"
+    }
+  ]
+}
+Replace your-bucket-name with the name of your bucket.
+
+Click Save changes.
+
+Step 6: Access Your Website
+Get the Website URL:
+
+Go to the Properties tab.
+
+Scroll down to Static website hosting.
+
+Copy the Bucket website endpoint (e.g., http://todo-list-app.s3-website-us-east-1.amazonaws.com).
+
+Open the URL:
+
+Paste the URL into your browser to access your To-Do List App.
+
